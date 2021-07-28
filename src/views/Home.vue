@@ -10,25 +10,37 @@
       <i class="material-icons">search</i>
     </div>
 
+    <h3 v-if="searchStr == ''">Popular</h3>
     <div class="results">
       <div class="users" v-if="users.length">
-        <h3>Users</h3>
-        <div class="" v-for="user in users" :key="user.id">
-          <!-- card for each user -->
+        <h4>Users</h4>
+        <div>
+          <!-- TODO sort by followers check -->
         </div>
+        <user class="" v-for="user in users" :key="user.id" :user="{ user }">
+          {{ user.id }}
+          <!-- TODO route info about user -->
+        </user>
       </div>
       <div class="repos" v-if="repos.length">
-        <h3>Repositories</h3>
-        <div class="" v-for="repo in repos" :key="repo.id">
-          <!-- card for each repo -->
-        </div>
+        <h4>Repositories</h4>
+        <repo class="" v-for="repo in repos" :key="repo.id" :repo="repo">
+          {{ repo.id }}
+        </repo>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Repo from "../components/Repo.vue";
+import User from "../components/User1.vue";
+
 export default {
+  components: {
+    Repo,
+    User,
+  },
   data() {
     let searchStr = "";
     let users = [];
@@ -39,8 +51,16 @@ export default {
       users,
     };
   },
+
   methods: {
-    async oninput() {},
+    async oninput() {
+      const searchRes = await fetch(
+        `https://api.github.com/search/users?q=${this.searchStr}`
+      );
+      const searchList = await searchRes.json();
+      this.users = searchList.items;
+      console.log(searchList);
+    },
     async getPopular() {
       const results = await Promise.all([
         ...[
@@ -49,8 +69,8 @@ export default {
         ].map((url) => fetch(url)),
       ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
 
-      this.repos = results[0];
-      this.users = results[1];
+      this.repos = results[0].slice(0, 25);
+      this.users = results[1].slice(0, 25);
     },
   },
   async created() {
@@ -65,9 +85,13 @@ export default {
   position: relative;
 }
 
+h3 {
+  padding: 0;
+  margin-top: 1em;
+}
+
 .results {
   display: flex;
-  margin-top: 1em;
   width: 100%;
   gap: 1em;
 }
@@ -76,7 +100,9 @@ export default {
 .repos {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-items: flex-start;
+  flex-direction: column;
+  margin: 3px 10px;
 }
 
 input {
@@ -118,7 +144,7 @@ i.material-icons {
   }
 
   .results {
-    flex-direction: row;
+    flex-direction: column;
   }
 }
 </style>

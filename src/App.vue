@@ -1,7 +1,7 @@
 <template>
   <div>
     <my-header />
-      <router-view />
+    <router-view />
     <my-footer />
   </div>
 </template>
@@ -30,5 +30,10 @@ main {
   main {
     width: 90%;
   }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 </style>

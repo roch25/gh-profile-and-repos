@@ -42,11 +42,6 @@ li {
   padding: 2px 10px;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
 a:hover {
   color: #eee;
 }
