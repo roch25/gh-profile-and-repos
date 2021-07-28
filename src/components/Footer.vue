@@ -25,7 +25,6 @@
 <style scoped>
 footer {
   padding: 3rem 1em;
-  border: 1px solid teal;
   display: grid;
   place-items: center;
   color: silver;
