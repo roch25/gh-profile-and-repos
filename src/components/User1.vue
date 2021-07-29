@@ -13,7 +13,7 @@
           v-for="(stat, key) in stats"
           :key="stat"
           class="link"
-          :to="'/repos/' + user?.user?.login"
+          :to="key == 'repositories' ? '/repos/' + user?.user?.login : '#'"
         >
           <span>{{ stats[key] }}</span>
           <a> {{ key }} </a>
