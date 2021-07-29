@@ -14,9 +14,7 @@
     <div class="results" v-if="users.length || repos.length">
       <div class="users">
         <h4>Users</h4>
-        <div>
-          <!-- TODO sort by followers check -->
-        </div>
+        
         <user class="" v-for="user in users" :key="user.id" :user="{ user }" />
       </div>
       <div class="repos">
@@ -89,10 +87,10 @@ export default {
       const searchRes = await fetch(
         `https://api.github.com/search/users?q=${this.searchStr}`,
         {
-          method: "GET",
-          headers: {
-            Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-          },
+          // method: "GET",
+          // headers: {
+          //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+          // },
         }
       );
       const searchList = await searchRes.json();
@@ -119,10 +117,10 @@ export default {
           "https://api.github.com/users",
         ].map((url) =>
           fetch(url, {
-            method: "GET",
-            headers: {
-              Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-            },
+            // method: "GET",
+            // headers: {
+            //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+            // },
           })
         ),
       ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
@@ -138,10 +136,10 @@ export default {
         .map((user) => user.repos.url)
         .map((url) =>
           fetch(url, {
-            method: "GET",
-            headers: {
-              Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-            },
+            // method: "GET",
+            // headers: {
+            //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+            // },
           })
         )
         .then((res) => Promise.all(res.map(async (res) => await res.json())));

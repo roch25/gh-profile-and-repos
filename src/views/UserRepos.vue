@@ -45,10 +45,10 @@ export default {
       const searchRes = await fetch(
         `https://api.github.com/users/${this.slug}/repos`,
         {
-          method: "GET",
-          headers: {
-            Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-          },
+          // method: "GET",
+          // headers: {
+          //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+          // },
         }
       );
       this.repos = await searchRes.json();
