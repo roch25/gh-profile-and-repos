@@ -12,6 +12,7 @@
         <router-link
           v-for="(stat, key) in stats"
           :key="stat"
+          class="link"
           :to="'/repos/' + user?.user?.login"
         >
           <span>{{ stats[key] }}</span>
@@ -122,6 +123,10 @@ span.material-icons {
 a span + a {
   font-size: xx-small;
   font-style: italic;
+}
+
+.stats .link:first-child {
+  color: green;
 }
 
 @media (max-width: 600px) {

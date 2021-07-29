@@ -17,15 +17,23 @@
         <div>
           <!-- TODO sort by followers check -->
         </div>
-        <user class="" v-for="user in users" :key="user.id" :user="{ user }">
-          {{ user.id }}
-          <!-- TODO route info about user -->
-        </user>
+        <user class="" v-for="user in users" :key="user.id" :user="{ user }" />
       </div>
       <div class="repos">
         <h4>Repositories</h4>
-        <repo class="" v-for="repo in repos" :key="repo.id" :repo="repo">
-          {{ repo.id }}
+        <repo class="" v-for="repo in repos" :key="repo.id">
+          <template v-slot:name>
+            {{ repo.full_name }}
+          </template>
+          <template v-slot:description>
+            <strong>Description:</strong> {{ repo.description }}
+          </template>
+          <template v-slot:url>
+            <strong>URL: </strong
+            ><a :href="repo.url">
+              {{ repo.url }}
+            </a>
+          </template>
         </repo>
       </div>
     </div>
@@ -60,6 +68,24 @@ export default {
 
   methods: {
     async oninput() {
+      // const results = await Promise.all([
+      //   ...[
+      //    `https://api.github.com/search/users?q=${this.searchStr}`,
+      //     `https://api.github.com/search/repositories?q=${this.searchStr}`,
+      //   ].map((url) =>
+      //     fetch(url, {
+      //       method: "GET",
+      //       headers: {
+      //         Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+      //       },
+      //     })
+      //   ),
+      // ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
+
+      // // this.message = "There was a problem loading users and repos";
+      // this.repos = results[0]?.slice(0, 25);
+      // this.users = results[1]?.slice(0, 25);
+
       const searchRes = await fetch(
         `https://api.github.com/search/users?q=${this.searchStr}`,
         {
@@ -71,16 +97,22 @@ export default {
       );
       const searchList = await searchRes.json();
       this.users = searchList.items;
-      console.log(searchList);
+
+      // const searchRep = await fetch(
+        //   `https://api.github.com/search/repositories?q=${this.searchStr}`,
+      //   {
+        //     method: "GET",
+      //     headers: {
+        //       Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+      //     },
+      //   }
+      // );
+      // this.repos = await searchRep.json();
+
+      this.repos = this.repos.filter(repo => repo.name.startsWith(this.searchStr))
+      // request fails, so search through popular repos
     },
     async getPopular() {
-      // const results = await Promise.all([
-      //   ...[
-      //     "https://api.github.com/repositories",
-      //     "https://api.github.com/users",
-      //   ].map((url) => fetch(url)),
-      // ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
-
       const results = await Promise.all([
         ...[
           "https://api.github.com/repositories",
@@ -95,9 +127,26 @@ export default {
         ),
       ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
 
-      this.message = "There was a problem loading users and repos";
+      // this.message = "There was a problem loading users and repos";
       this.repos = results[0]?.slice(0, 25);
       this.users = results[1]?.slice(0, 25);
+      // this.sortByFollowers()
+    },
+
+    sortByFollowers() {
+      const reps = this.users
+        .map((user) => user.repos.url)
+        .map((url) =>
+          fetch(url, {
+            method: "GET",
+            headers: {
+              Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+            },
+          })
+        )
+        .then((res) => Promise.all(res.map(async (res) => await res.json())));
+
+      // console.log(reps.map(rep => rep.length).sort());
     },
   },
   async created() {
