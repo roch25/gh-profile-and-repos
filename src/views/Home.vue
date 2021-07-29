@@ -11,8 +11,8 @@
     </div>
 
     <h3 v-if="searchStr == ''">Popular</h3>
-    <div class="results">
-      <div class="users" v-if="users.length">
+    <div class="results" v-if="users.length || repos.length">
+      <div class="users">
         <h4>Users</h4>
         <div>
           <!-- TODO sort by followers check -->
@@ -22,12 +22,15 @@
           <!-- TODO route info about user -->
         </user>
       </div>
-      <div class="repos" v-if="repos.length">
+      <div class="repos">
         <h4>Repositories</h4>
         <repo class="" v-for="repo in repos" :key="repo.id" :repo="repo">
           {{ repo.id }}
         </repo>
       </div>
+    </div>
+    <div v-else style="padding: 4px; border-radius: 5px; color: white">
+      {{ message }}
     </div>
   </div>
 </template>
@@ -35,6 +38,7 @@
 <script>
 import Repo from "../components/Repo.vue";
 import User from "../components/User1.vue";
+const { VITE_AUTH_TOKEN } = import.meta.env;
 
 export default {
   components: {
@@ -45,32 +49,55 @@ export default {
     let searchStr = "";
     let users = [];
     let repos = [];
+
     return {
       searchStr,
       repos,
       users,
+      message: "Loading",
     };
   },
 
   methods: {
     async oninput() {
       const searchRes = await fetch(
-        `https://api.github.com/search/users?q=${this.searchStr}`
+        `https://api.github.com/search/users?q=${this.searchStr}`,
+        {
+          method: "GET",
+          headers: {
+            Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+          },
+        }
       );
       const searchList = await searchRes.json();
       this.users = searchList.items;
       console.log(searchList);
     },
     async getPopular() {
+      // const results = await Promise.all([
+      //   ...[
+      //     "https://api.github.com/repositories",
+      //     "https://api.github.com/users",
+      //   ].map((url) => fetch(url)),
+      // ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
+
       const results = await Promise.all([
         ...[
           "https://api.github.com/repositories",
           "https://api.github.com/users",
-        ].map((url) => fetch(url)),
+        ].map((url) =>
+          fetch(url, {
+            method: "GET",
+            headers: {
+              Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+            },
+          })
+        ),
       ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
 
-      this.repos = results[0].slice(0, 25);
-      this.users = results[1].slice(0, 25);
+      this.message = "There was a problem loading users and repos";
+      this.repos = results[0]?.slice(0, 25);
+      this.users = results[1]?.slice(0, 25);
     },
   },
   async created() {

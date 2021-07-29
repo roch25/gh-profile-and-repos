@@ -9,12 +9,14 @@
       </h4>
 
       <div class="stats">
-        <a v-for="(stat, key) in stats" :key="stat">
-          <router-link :to="'/repos/' + user?.user?.login">{{
-            stats[key]
-          }}</router-link>
+        <router-link
+          v-for="(stat, key) in stats"
+          :key="stat"
+          :to="'/repos/' + user?.user?.login"
+        >
+          <span>{{ stats[key] }}</span>
           <a> {{ key }} </a>
-        </a>
+        </router-link>
       </div>
 
       <p class="location">
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+const { VITE_AUTH_TOKEN } = import.meta.env;
 export default {
   props: {
     user: {
@@ -40,22 +43,32 @@ export default {
       stats,
     };
   },
+  methods: {
+    async getUserDetails() {
+      const res = await fetch(this.user.user.url, {
+        method: "GET",
+        headers: {
+          Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+        },
+      });
+      const _user = await res.json();
+      this.stats = {
+        repositories: _user?.public_repos,
+        following: _user?.following,
+        followers: _user?.followers,
+      };
+      this._user = _user;
+    },
+  },
   async mounted() {
-    const res = await fetch(this.user.user.url);
-    const _user = await res.json();
-    this.stats = {
-      repositories: _user?.public_repos,
-      following: _user?.following,
-      followers: _user?.followers,
-    };
-    this._user = _user;
+    this.getUserDetails();
   },
 };
 </script>
 
 <style scoped>
 section {
-  box-shadow: 1px 1px 4px silver;
+  box-shadow: 1px 2px 4px silver;
   border-radius: 5px;
   margin: 0.5em 0;
   display: grid;
@@ -100,19 +113,19 @@ span.material-icons {
   gap: 4px;
 }
 
-.stats > a {
+.stats a {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
 }
 
-a a + a {
+a span + a {
   font-size: xx-small;
   font-style: italic;
 }
 
 @media (max-width: 600px) {
-  .stats > a {
+  .stats a {
     font-size: x-small;
   }
 }
