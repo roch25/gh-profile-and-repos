@@ -1,3 +1,5 @@
+// From https://github.com/doda/github-language-colors/blob/master/colors.json
+
 export const colors =  {
   "Mercury": "#ff2b2b",
   "TypeScript": "#2b7489",
