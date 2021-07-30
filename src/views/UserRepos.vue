@@ -128,7 +128,7 @@ input {
   font-size: 1em;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 749px) {
   section {
     width: 90%;
   }

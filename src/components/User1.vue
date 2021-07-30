@@ -79,11 +79,6 @@ section {
   border: 1px solid silver;
 }
 
-section:hover {
-  
-  box-shadow: 1px 1px 2px silver;
-}
-
 a + div {
   display: flex;
   margin-left: 10px;
@@ -145,9 +140,26 @@ a span + a {
   padding: 5px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 749px) {
   .stats a {
     font-size: x-small;
+  }
+  section {
+    grid-template-columns: 1fr;
+    place-items: center;
+  }
+
+  img {
+    width: 50%;
+  }
+
+  section a {
+    display: grid;
+    place-items: center;
+  }
+
+  .stats {
+    grid-template-columns: auto;
   }
 }
 </style>

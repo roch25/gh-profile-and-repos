@@ -166,7 +166,7 @@ main {
   padding: 1em 3em;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 749px) {
   input {
     width: 100%;
   }

@@ -53,7 +53,7 @@ span {
   border-top: 1px solid silver;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 749px) {
   ul {
     flex-direction: column;
     align-items: center;
