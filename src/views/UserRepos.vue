@@ -4,7 +4,16 @@
       <h2>
         {{ `${slug}'s public repositories` }}
       </h2>
-      <repo class="" v-for="repo in repos" :key="repo.id">
+      <div class="searchBox">
+        <input
+          type="search"
+          placeholder="Search repositories"
+          v-model.trim="searchStr"
+          @input="oninput"
+        />
+      </div>
+      <div></div>
+      <repo class="" v-for="repo in reposToDisplay" :key="repo.id">
         <template v-slot:name>
           {{ repo.full_name }}
         </template>
@@ -53,9 +62,13 @@ export default {
   },
   data() {
     let repos = [];
+    let reposToDisplay = [];
+    let searchStr = "";
     return {
       repos,
-      colors
+      colors,
+      searchStr,
+      reposToDisplay,
     };
   },
   methods: {
@@ -70,7 +83,14 @@ export default {
         }
       );
       this.repos = await searchRes.json();
+      this.reposToDisplay = this.repos;
+
       // console.log(this.repos);
+    },
+    async oninput() {
+      this.reposToDisplay = this.repos.filter((repo) =>
+        repo.name.startsWith(this.searchStr)
+      );
     },
   },
   async created() {
@@ -82,9 +102,20 @@ export default {
 
 <style scoped>
 section {
-  width: 80%;
-  padding: 1em 0;
+  width: 75%;
+  padding: 1em;
   margin: auto;
+}
+
+.searchBox {
+  width: 40%;
+}
+
+input {
+  padding: 10px 10px 10px 5px;
+  border: 2px solid silver;
+  border-radius: 6px;
+  width: 100%;
 }
 
 .repos {

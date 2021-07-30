@@ -30,7 +30,6 @@ section {
   box-shadow: 1px 1px 4px silver;
   border-radius: 5px;
   margin: 1em 0;
-  padding: 1em;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -42,7 +41,6 @@ section {
   gap: 10px;
   font-size: 0.8em;
   justify-content: space-between;
-  padding: 2px 1em;
 }
 
 .material-icons {

@@ -83,13 +83,6 @@ export default {
     async oninput() {
       this.search("users")
       this.search("repositories")
-    
-
-     
-      // this.repositories = this.repositories.filter((repo) =>
-      //   repo.name.startsWith(this.searchStr)
-      // );
-      // request fails, so search through popular repositories
     },
     async getPopular() {
       const results = await Promise.all([
