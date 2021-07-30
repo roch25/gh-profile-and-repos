@@ -1,19 +1,24 @@
 <template>
   <section>
-    <repo class="" v-for="repo in repos" :key="repo.id">
-      <template v-slot:name>
-        {{ repo.full_name }}
-      </template>
-      <template v-slot:description>
-        <strong>Description:</strong> {{ repo.description }}
-      </template>
-      <template v-slot:url>
-        <strong>URL: </strong
-        ><a :href="repo.url">
-          {{ repo.url }}
-        </a>
-      </template>
-    </repo>
+    <h2>
+      {{ `${slug}'s public repositories` }}
+    </h2>
+    <div v-if="repos.length">
+      <repo
+        class=""
+        v-for="repo in repos"
+        :key="repo.id"
+        :language="repo.language"
+      >
+        <template v-slot:name>
+          {{ repo.full_name }}
+        </template>
+        <template v-slot:description>
+          {{ repo.description }}
+        </template>
+      </repo>
+    </div>
+    <span v-else>No repositories to show</span>
   </section>
 </template>
 
@@ -62,4 +67,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+section {
+  width: 80%;
+  margin: auto;
+  padding: 1em 0;
+}
+
+@media (max-width: 600px) {
+  section {
+    width: 90%;
+  }
+}
+</style>

@@ -69,14 +69,13 @@ export default {
 
 <style scoped>
 section {
-  box-shadow: 1px 2px 4px silver;
+  box-shadow: 1px 1px 3px silver;
   border-radius: 5px;
   margin: 0.5em 0;
   display: grid;
   grid-template-columns: 1fr 4fr;
   padding: 1em;
   gap: 12px;
-  /* flex-direction: ; */
 }
 
 img + div {
@@ -117,16 +116,23 @@ span.material-icons {
 .stats a {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
 }
 
 a span + a {
   font-size: xx-small;
-  font-style: italic;
+  text-transform: uppercase;
 }
 
 .stats .link:first-child {
-  color: green;
+  background: rgb(193, 236, 193);
+  border-radius: 4px;
+  transition: 0.3s ease-in;
+}
+
+.stats .link:first-child:hover {
+  background: rgb(168, 221, 168);
+  border-radius: 4px;
 }
 
 @media (max-width: 600px) {
