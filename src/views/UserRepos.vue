@@ -1,20 +1,30 @@
 <template>
   <section>
-    <h2>
-      {{ `${slug}'s public repositories` }}
-    </h2>
-    <div v-if="repos.length">
-      <repo
-        class=""
-        v-for="repo in repos"
-        :key="repo.id"
-        :language="repo.language"
-      >
+    <div v-if="repos.length" class="repos">
+      <h2>
+        {{ `${slug}'s public repositories` }}
+      </h2>
+      <repo class="" v-for="repo in repos" :key="repo.id">
         <template v-slot:name>
           {{ repo.full_name }}
         </template>
         <template v-slot:description>
           {{ repo.description }}
+        </template>
+        <template v-slot:language>
+          <span
+            class="material-icons"
+            :style="`color: ${colors[repo.language]};`"
+          >
+            circle </span
+          >{{ repo.language }}
+        </template>
+        <template v-slot:stars>
+          <span class="material-icons"> star </span>{{ repo.stargazers_count }}
+        </template>
+        <template v-slot:forks>
+          <span class="material-icons"> call_missed </span>
+          {{ repo.forks_count }}
         </template>
       </repo>
     </div>
@@ -24,6 +34,8 @@
 
 <script>
 const { VITE_AUTH_TOKEN } = import.meta.env;
+
+import { colors } from "../assets/colors";
 import Repo from "../components/Repo.vue";
 export default {
   watch: {
@@ -43,6 +55,7 @@ export default {
     let repos = [];
     return {
       repos,
+      colors
     };
   },
   methods: {
@@ -70,8 +83,18 @@ export default {
 <style scoped>
 section {
   width: 80%;
-  margin: auto;
   padding: 1em 0;
+  margin: auto;
+}
+
+.repos {
+  display: grid;
+  place-items: center;
+  gap: 1em;
+}
+
+.material-icons {
+  font-size: 1em;
 }
 
 @media (max-width: 600px) {

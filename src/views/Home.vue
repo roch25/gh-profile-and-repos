@@ -3,7 +3,7 @@
     <div class="searchBox">
       <input
         type="search"
-        placeholder="Search user, repository"
+        placeholder="Search users, repositories"
         v-model.trim="searchStr"
         @input="oninput"
       />
@@ -11,19 +11,18 @@
     </div>
 
     <h3 v-if="searchStr == ''">Popular</h3>
-    <div class="results" v-if="users.length || repos.length">
+    <div class="results" v-if="users.length || repositories.length">
       <div class="users">
         <h4>Users</h4>
 
         <user class="" v-for="user in users" :key="user.id" :user="{ user }" />
       </div>
-      <div class="repos">
+      <div class="repositories">
         <h4>Repositories</h4>
         <repo
           class=""
-          v-for="repo in repos"
+          v-for="repo in repositories"
           :key="repo.id"
-          :language="repo.language"
         >
           <template v-slot:name>
             {{ repo.full_name }}
@@ -53,47 +52,44 @@ export default {
   data() {
     let searchStr = "";
     let users = [];
-    let repos = [];
+    let repositories = [];
 
     return {
       searchStr,
-      repos,
+      repositories,
       users,
       message: "Loading",
     };
   },
 
   methods: {
+
+    async search(slug) {
+      if (this.searchStr.length > 3) {
+        const searchRes = await fetch(
+          `https://api.github.com/search/${slug}?q=${this.searchStr}`,
+          {
+            // method: "GET",
+            // headers: {
+            //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+            // },
+          }
+        );
+        const searchList = await searchRes.json();
+        this[slug] = searchList.items.slice(0, 5);
+      }
+    },
+
     async oninput() {
+      this.search("users")
+      this.search("repositories")
+    
+
      
-
-      const searchRes = await fetch(
-        `https://api.github.com/search/users?q=${this.searchStr}`,
-        {
-          // method: "GET",
-          // headers: {
-          //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-          // },
-        }
-      );
-      const searchList = await searchRes.json();
-      this.users = searchList.items;
-
-      const searchRep = await fetch(
-        `https://api.github.com/search/repositories?q=${this.searchStr}`,
-        {
-          method: "GET",
-          headers: {
-            Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-          },
-        }
-      );
-      this.repos = await searchRep.json().slice(0, 15);
-
-      this.repos = this.repos.filter((repo) =>
-        repo.name.startsWith(this.searchStr)
-      );
-      // request fails, so search through popular repos
+      // this.repositories = this.repositories.filter((repo) =>
+      //   repo.name.startsWith(this.searchStr)
+      // );
+      // request fails, so search through popular repositories
     },
     async getPopular() {
       const results = await Promise.all([
@@ -109,14 +105,14 @@ export default {
           })
         ),
       ]).then((res) => Promise.all(res.map(async (res) => await res.json())));
-      this.repos = results[0]?.slice(0, 10);
-      this.users = results[1]?.slice(0, 10);
+      this.repositories = results[0]?.slice(0, 5);
+      this.users = results[1]?.slice(0, 5);
       // this.sortByFollowers()
     },
 
     sortByFollowers() {
       const reps = this.users
-        .map((user) => user.repos.url)
+        .map((user) => user.repositories.url)
         .map((url) =>
           fetch(url, {
             // method: "GET",
@@ -154,7 +150,7 @@ h3 {
 }
 
 .users,
-.repos {
+.repositories {
   display: flex;
   width: 100%;
   justify-items: flex-start;

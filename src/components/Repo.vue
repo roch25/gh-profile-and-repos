@@ -1,57 +1,51 @@
 <template>
   <section>
     <slot name="name"></slot>
-
     <div style="color: gray; font-size: x-small">
       <em>
         <slot name="description"></slot>
       </em>
     </div>
 
-    <div class="lang">
-      <i
-        v-if="language"
-        class="material-icons"
-        :style="`color: ${colors[language]}; font-size: 1em`"
-      >
-        circle
-      </i>
-      {{ language }}
+    <div class="info">
+      <div>
+        <slot name="language"></slot>
+      </div>
+      <div class="counts">
+        <div title="Forks">
+          <slot name="forks"></slot>
+        </div>
+        <div title="Stars">
+          <slot name="stars"></slot>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
-<script>
-import { colors } from "../assets/colors";
-export default {
-  props: {
-    language: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-      colors,
-    };
-  },
-};
-</script>
+<script></script>
 
 <style scoped>
 section {
-  box-shadow: 1px 1px 2px silver;
+  box-shadow: 1px 1px 4px silver;
   border-radius: 5px;
-  margin: 0.5em 0;
+  margin: 1em 0;
   padding: 1em;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
 }
 
-.lang {
+.info,
+.counts {
   display: flex;
-  gap: 4px;
+  gap: 10px;
   font-size: 0.8em;
+  justify-content: space-between;
+  padding: 2px 1em;
 }
 
+.material-icons {
+  font-size: 1em;
+}
 </style>

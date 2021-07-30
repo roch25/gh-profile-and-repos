@@ -1,14 +1,17 @@
 <template>
   <footer class="footer">
-      <a href="http://github.com">
-        <img src="/icons8-github.svg" alt="github logo" />
-      </a>
     
       <ul class="columns">
         <li class="column">
           <a href="https://docs.github.com/en/rest/reference"
-            >GitHub Rest API references</a
+            >GitHub ReST API references</a
           >
+        </li>
+        <li>
+      <a href="http://github.com">
+        <img src="/icons8-github.svg" alt="github logo" />
+      </a>
+
         </li>
         <li class="column">
           <a
@@ -18,7 +21,7 @@
         </li>
       </ul>
     <span>
-      Made with ❤️
+      Made with 💚
       <a href="http://github.com/roch25"><strong>Rochelle Martins</strong></a>
     </span>
   </footer>

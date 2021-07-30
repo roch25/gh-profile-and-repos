@@ -47,10 +47,10 @@ export default {
   methods: {
     async getUserDetails() {
       const res = await fetch(this.user.user.url, {
-        method: "GET",
-        headers: {
-          Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
-        },
+        // method: "GET",
+        // headers: {
+        //   Authentication: `Basic roch25:${VITE_AUTH_TOKEN}`,
+        // },
       });
       const _user = await res.json();
       this.stats = {
@@ -69,7 +69,7 @@ export default {
 
 <style scoped>
 section {
-  box-shadow: 1px 1px 3px silver;
+  box-shadow: 1px 1px 4px silver;
   border-radius: 5px;
   margin: 0.5em 0;
   display: grid;
