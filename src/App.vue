@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import MyHeader from "./components/MyHeader.vue";
+import MyHeader from "./components/Header.vue";
 import MyFooter from "./components/Footer.vue";
 </script>
 
@@ -19,17 +19,6 @@ html {
 
 #app {
   font-family: Nunito, Avenir, Helvetica, Arial, sans-serif;
-}
-
-main {
-  width: 60%;
-  margin: auto;
-}
-
-@media (max-width: 600px) {
-  main {
-    width: 90%;
-  }
 }
 
 a {

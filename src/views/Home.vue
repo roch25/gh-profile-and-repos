@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <main>
     <div class="searchBox">
       <input
         type="search"
@@ -7,7 +7,6 @@
         v-model.trim="searchStr"
         @input="oninput"
       />
-      <i class="material-icons">search</i>
     </div>
 
     <h3 v-if="searchStr == ''">Popular</h3>
@@ -36,7 +35,7 @@
     <div v-else style="padding: 4px; border-radius: 5px; color: white">
       {{ message }}
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -128,7 +127,6 @@ export default {
 <style scoped>
 .searchBox {
   width: 40%;
-  position: relative;
 }
 
 h3 {
@@ -138,7 +136,7 @@ h3 {
 
 .results {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
   gap: 1em;
 }
 
@@ -156,24 +154,16 @@ input {
   border: 2px solid silver;
   border-radius: 6px;
   width: 100%;
-  position: relative;
 }
 
 input::placeholder {
   font-style: italic;
 }
 
-.container {
+main {
   display: grid;
   place-items: center;
   padding: 1em 3em;
-}
-
-i.material-icons {
-  position: absolute;
-  right: 5px;
-  padding: 8px 0;
-  cursor: pointer;
 }
 
 @media (max-width: 600px) {
@@ -181,7 +171,7 @@ i.material-icons {
     width: 100%;
   }
 
-  .container {
+  main {
     padding: 1rem;
   }
 

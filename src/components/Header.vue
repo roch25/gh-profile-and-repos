@@ -1,7 +1,7 @@
 <template>
   <header>
-    <a href="http://github.com">
-      <img src="/icons8-github.svg" alt="github logo" />
+    <a href="https://docs.github.com/en/rest/reference">
+      <img src="/icons8-github-48.png" alt="github logo" />
     </a>
   </header>
 </template>

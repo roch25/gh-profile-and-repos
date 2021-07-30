@@ -69,18 +69,25 @@ export default {
 
 <style scoped>
 section {
-  box-shadow: 1px 1px 4px silver;
+  box-shadow: 1px 1px 1px silver;
   border-radius: 5px;
   margin: 0.5em 0;
   display: grid;
   grid-template-columns: 1fr 4fr;
   padding: 1em;
-  gap: 12px;
+  gap: 1em;
+  border: 1px solid silver;
 }
 
-img + div {
+section:hover {
+  
+  box-shadow: 1px 1px 2px silver;
+}
+
+a + div {
   display: flex;
   margin-left: 10px;
+  gap: 6px;
   flex-direction: column;
 }
 
@@ -108,7 +115,6 @@ span.material-icons {
 
 .stats {
   display: grid;
-  padding: 3px 0;
   grid-template-columns: auto auto auto;
   gap: 4px;
 }
@@ -133,6 +139,10 @@ a span + a {
 .stats .link:first-child:hover {
   background: rgb(168, 221, 168);
   border-radius: 4px;
+}
+
+.link {
+  padding: 5px;
 }
 
 @media (max-width: 600px) {

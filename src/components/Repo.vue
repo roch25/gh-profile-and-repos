@@ -27,12 +27,14 @@
 
 <style scoped>
 section {
-  box-shadow: 1px 1px 4px silver;
+  box-shadow: 1px 1px 1px silver;
   border-radius: 5px;
   margin: 1em 0;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1em;
+  padding: 1em;
+  border: 1px solid silver;
 }
 
 .info,
